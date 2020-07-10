@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Firebase</title>
+</head>
+<body>
+
+    <h1>Hello World!</h1>
+
+    <ul></ul>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-database.js"></script>
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyAExmsIyMez-05c24NQM0jK26ZLBw57ooE",
+        authDomain: "fir-project-dbc80.firebaseapp.com",
+        databaseURL: "https://fir-project-dbc80.firebaseio.com",
+        projectId: "fir-project-dbc80",
+        storageBucket: "fir-project-dbc80.appspot.com",
+        messagingSenderId: "335716405596",
+        appId: "1:335716405596:web:9c2e7e5df93d502b377199",
+        measurementId: "G-PRHBMX02JN"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      let db = firebase.database();
+      let playerRef = db.ref('players');
+      // let playerRef = db.ref('topscorer');
+
+      // filter dan sort
+      // orderBy(), orderByChild(), orderByValue()
+      // startAt() endAt() equalTo() limitToFirst(i) limitToLast(i)
+
+      playerRef.orderByChild('no').on('value', showData, showError);
+
+      // playerRef.orderByChild('name').on('value', showData, showError);
+      // playerRef.on('child_added', userAdded);
+      // playerRef.on('child_changed', userChanged);
+      // playerRef.on('child_removed', userRemoved);
+
+      function showData(items) {
+        let _ul = document.getElementsByTagName('ul')[0];
+        let _content = '';
+        items.forEach(function(child) {
+          _content += "<li>" + child.val().name + " - "+ child.val().no + "</li>";
+        });
+        _ul.innerHTML = _content;
+      }
+
+      function showError(err) {
+        console.log(err);
+      }
+
+      function userAdded(items) {
+        console.log("success add user " + items.val().name);
+        console.log(items.val());
+      }
+
+      function userChanged(items) {
+        console.log("success update user " + items.val().name);
+        console.log(items.val());
+      }
+
+      function userRemoved(items) {
+        console.log("success remove user " + items.val().name);
+        console.log(items.val());
+      }
+    </script>
+</body>
+</html>
